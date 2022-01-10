@@ -1,7 +1,6 @@
 package fr.easit.easit.services;
 
 import fr.easit.easit.models.Account;
-import fr.easit.easit.repositories.AccountRepository;
 import fr.easit.easit.repositories.IAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
