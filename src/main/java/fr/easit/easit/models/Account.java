@@ -1,7 +1,6 @@
-package fr.easit.easit.model;
+package fr.easit.easit.models;
 
 
-import java.util.Objects;
 import javax.persistence.*;
 
 @Entity
