@@ -11,7 +11,6 @@ import java.util.List;
 @Service
 public class AccountService implements IAccountService {
 
-    @Qualifier("accountRepository")
     @Autowired
     private IAccountRepository repository;
 
