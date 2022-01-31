@@ -6,10 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
+@RestController
 public class ControllerTest {
 
     @Autowired
@@ -18,7 +19,8 @@ public class ControllerTest {
     @GetMapping("/test")
     public String findCities(Model model) {
 
-        List<Account> list =  accountService.findAll();
+        List<Account> list =  accountService.findAllByAge();
+
 
         model.addAttribute("accounts", list);
 

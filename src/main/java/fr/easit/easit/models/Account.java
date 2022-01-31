@@ -1,11 +1,17 @@
 package fr.easit.easit.models;
 
 
+import com.vladmihalcea.hibernate.type.json.JsonType;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.json.JSONObject;
+
 import javax.persistence.*;
+import java.util.Map;
 
 @Entity
 @Table(name = "accounts")
-
+@TypeDef(name = "json", typeClass = JsonType.class)
 public class Account {
 
     @Id
@@ -17,12 +23,20 @@ public class Account {
     private String password;
     private String email;
 
-    public Account(){}
+    @Type(type = "json")
+    @Column(columnDefinition = "json")
+    private AccountInfos info;
 
-    public Account(String username, String password, String email){
+
+    public Account(String username, String password, String email, AccountInfos info){
+        this.info = info;
+        //this.info = info;
         setUsername(username);
         setPassword(password);
         setEmail(email);
+    }
+
+    public Account() {
     }
 
     public Long getId() {
@@ -57,13 +71,22 @@ public class Account {
         this.email = email;
     }
 
+    public AccountInfos getInfo(){
+        return this.info;
+    }
+
+    public void setInfo(AccountInfos info) {
+        this.info = info;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Account{");
         sb.append("id=").append(id);
         sb.append(", username='").append(username).append('\'');
         sb.append(", password=").append(password).append('\'');
-        sb.append(", email=").append(email);
+        sb.append(", email=").append(email).append('\'');
+        //sb.append(", json=").append(info).append('\'');
         sb.append('}');
         return sb.toString();
     }

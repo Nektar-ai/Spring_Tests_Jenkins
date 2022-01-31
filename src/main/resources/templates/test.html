@@ -15,6 +15,7 @@
         <th>Username</th>
         <th>Password</th>
         <th>Email</th>
+        <th>Age</th>
     </tr>
 
     <tr th:each="account : ${accounts}">
@@ -22,6 +23,7 @@
         <td th:text="${account.username}">Username</td>
         <td th:text="${account.password}">Password</td>
         <td th:text="${account.email}">Email</td>
+        <td th:text="${account.info.getAge()}">Email</td>
     </tr>
 </table>
 

@@ -26,4 +26,12 @@ public class AccountService implements IAccountService {
         }
         return accounts;
     }
+
+    public List<Account> findAllByAge(){
+        List<Account> accounts = repository.findAllOrderByAge();
+        for (Account a : accounts ) {
+            log.info(a.toString());
+        }
+        return accounts;
+    }
 }
