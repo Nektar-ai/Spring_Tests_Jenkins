@@ -8,6 +8,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CalculsTest {
 
+    private Calculs c1 = null;
+    private Calculs c2 = null;
+    private Calculs c3 = null;
+     
      @BeforeEach
     void setUp() throws Exception {
 
