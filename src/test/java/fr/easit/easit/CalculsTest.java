@@ -40,7 +40,7 @@ class CalculsTest {
 
 
     @Test
-    void diviser()
+    void testDiviser()
     {
         if (c2.diviser() != 0)
                 fail("Echec divide");
@@ -49,7 +49,7 @@ class CalculsTest {
 
 
     @Test
-    void soustraire() {
+    void testSoustraire() {
         if (c3.soustraire() != -100)
             fail("Echec Substract");
         assertEquals(c3.soustraire(), -100);
