@@ -25,6 +25,7 @@ class CalculsTest {
     @Test
     void testMultiplier()
     {
+        fail("Echec divide");
         if (c1.multiplier() != 2)
             fail("Echec multiply");
         assertEquals(c1.multiplier(), 2);
@@ -33,6 +34,7 @@ class CalculsTest {
 
     @Test
     void testAdditionner() {
+        fail("Echec divide");
         if (c2.additionner() != 30)
             fail("Echec add");
         assertEquals(c2.additionner(), 30);
@@ -42,6 +44,7 @@ class CalculsTest {
     @Test
     void testDiviser()
     {
+        fail("Echec divide");
         if (c2.diviser() != 0)
                 fail("Echec divide");
         assertEquals(c2.diviser(), 0);
@@ -50,6 +53,7 @@ class CalculsTest {
 
     @Test
     void testSoustraire() {
+        fail("Echec divide");
         if (c3.soustraire() != -100)
             fail("Echec Substract");
         assertEquals(c3.soustraire(), -100);

@@ -40,6 +40,7 @@ public class CalculsTest2 {
     @MethodSource("chargerJeuDeTest")
     void testMultiplier(int firstNumber, int secondNumber, int expectedResults)
     {
+        fail("Echec divide");
         Calculs monCal = new Calculs(firstNumber, secondNumber);
         assertEquals(expectedResults, monCal.multiplier(), "test en échec pour " + firstNumber + "*" + secondNumber + " !");
 
