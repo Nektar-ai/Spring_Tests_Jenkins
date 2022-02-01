@@ -12,15 +12,15 @@ import java.util.List;
 @Controller
 public class ControllerTest {
 
-    @Autowired
-    private AccountService accountService;
+/*    @Autowired
+    private AccountService accountService;*/
 
     @GetMapping("/test")
     public String findCities(Model model) {
 
-        List<Account> list =  accountService.findAll();
+/*        List<Account> list =  accountService.findAll();*/
 
-        model.addAttribute("accounts", list);
+/*        model.addAttribute("accounts", list);*/
 
         return "test";
     }
