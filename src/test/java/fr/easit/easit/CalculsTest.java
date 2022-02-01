@@ -13,50 +13,39 @@ class CalculsTest {
     private Calculs c3 = null;
 
     @BeforeEach
-    void setUp() throws Exception {
-
+    void setUp() throws Exception
+    {
         c1 = new Calculs(1,2);
         c2 = new Calculs(10,20);
         c3 = new Calculs(100,200);
-
     }
 
 
     @Test
     void testMultiplier()
     {
-        fail("Echec divide");
-        if (c1.multiplier() != 2)
-            fail("Echec multiply");
-        assertEquals(c1.multiplier(), 2);
+        assertEquals(c1.multiplier(), 2, "Echec methode multiplier");
     }
 
 
     @Test
-    void testAdditionner() {
-        fail("Echec divide");
-        if (c2.additionner() != 30)
-            fail("Echec add");
-        assertEquals(c2.additionner(), 30);
+    void testAdditionner()
+    {
+        assertEquals(c2.additionner(), 30, "Echec methode additionner");
     }
 
 
     @Test
     void testDiviser()
     {
-        fail("Echec divide");
-        if (c2.diviser() != 0)
-                fail("Echec divide");
-        assertEquals(c2.diviser(), 0);
+        assertEquals(c2.diviser(), 0, "Echec methode diviser");
     }
 
 
     @Test
-    void testSoustraire() {
-        fail("Echec divide");
-        if (c3.soustraire() != -100)
-            fail("Echec Substract");
-        assertEquals(c3.soustraire(), -100);
+    void testSoustraire()
+    {
+        assertEquals(c3.soustraire(), -100, "Echec methode soustraire");
     }
 
 
