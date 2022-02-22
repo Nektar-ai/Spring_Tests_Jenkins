@@ -16,6 +16,24 @@ public class Client {
         this.id = id;
     }
 
+    @Column(name = "last_name", length = 50)
+    private String lastName;
+    public String getLastName() {
+        return lastName;
+    }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    @Column(name = "first_name", length = 50)
+    private String firstName;
+    public String getFirstName() {
+        return firstName;
+    }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
     @ManyToOne
     @JoinColumn(name = "contract_id", nullable = false)
     private Contract contract;
