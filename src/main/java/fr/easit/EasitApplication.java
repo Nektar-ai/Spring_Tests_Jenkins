@@ -25,4 +25,6 @@ public class EasitApplication {
 		factoryBean.setPersistenceUnitName("database");
 		return factoryBean;
 	}*/
+
+
 }
