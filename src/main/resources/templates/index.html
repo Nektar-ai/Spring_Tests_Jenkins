@@ -27,10 +27,10 @@
             <thead class="table-dark table-bordered">
             <tr>
                 <td>
-                    Code
+                    Nom
                 </td>
                 <td>
-                    Libellé
+                    Desc
                 </td>
                 <td>
                     Prix de production
@@ -41,19 +41,10 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>
-                    XXX
-                </td>
-                <td>
-                    XXXXXXXXXX
-                </td>
-                <td>
-                    XXXXX,XX
-                </td>
-<!--                <td>-->
-<!--                    XXXXX,XX-->
-<!--                </td>-->
+            <tr th:each="article : ${articles}">
+                <td th:text="${article.name}"/>
+                <td th:text="${article.description}"/>
+                <td th:text="${article.finalPrice}"/>
             </tr>
             </tbody>
         </table>

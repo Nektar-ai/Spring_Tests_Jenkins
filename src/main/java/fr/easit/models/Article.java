@@ -1,5 +1,7 @@
 package fr.easit.models;
 
+import org.springframework.web.bind.annotation.Mapping;
+
 import javax.persistence.*;
 
 @Entity
@@ -25,7 +27,7 @@ public class Article {
         this.name = name;
     }
 
-    @Lob
+    @Column(columnDefinition="TEXT")
     private String description;
     public String getDescription() {
         return description;
@@ -41,5 +43,10 @@ public class Article {
     }
     public void setProductionPrice(Double productionPrice) {
         this.productionPrice = productionPrice;
+    }
+
+    @Override
+    public String toString(){
+        return "Article : {name:"+getName()+", description:"+getDescription()+", price:"+getProductionPrice()+"}";
     }
 }

@@ -7,7 +7,22 @@
 </head>
 
 <body>
+<table>
+    <thead>
+        <tr>
+            <th colspan="1">Nom</th>
+            <th colspan="1">Desc</th>
+            <th colspan="1">Prix</th>
+        </tr>
+    </thead>
+    <tbody>
 
+        <tr th:each="article : ${articles}">
+            <td th:text="${article.name}"/>
+        </tr>
+
+    </tbody>
+</table>
 
 </body>
 </html>
