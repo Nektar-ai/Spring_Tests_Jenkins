@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Accounts</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+<table>
+    <thead>
+        <tr>
+            <th colspan="1">Nom</th>
+            <th colspan="1">Desc</th>
+            <th colspan="1">Prix</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr th:each="client : ${clients}">
+            <td th:text="${client.id}"/>
+        </tr>
+
+    </tbody>
+</table>
+
+</body>
+</html>
