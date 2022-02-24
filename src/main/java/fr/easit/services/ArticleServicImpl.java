@@ -18,14 +18,17 @@ public class ArticleServicImpl implements ArticleService{
 
     @Autowired
     ArticleRepository articleRepository;
-    //ClientRepository clientRepository;
+    @Autowired
+    ClientRepository clientRepository;
 
     @Override
     public List<ArticleDAO> getArticles(){
         List<Article> articles = articleRepository.findAll();
         List<ArticleDAO> articlesTrans = new ArrayList<>();
+
+        Client client = clientRepository.getById(5);
         for (Article a : articles) {
-           articlesTrans.add(new ArticleDAO(a));
+           articlesTrans.add(new ArticleDAO(a, client));
         }
         return articlesTrans;
     }

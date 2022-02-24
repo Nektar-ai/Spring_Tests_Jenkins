@@ -7,16 +7,22 @@ import fr.easit.models.User;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.util.logging.Logger;
 
 public class ArticleDAO {
 
+
+    Logger logger = Logger.getLogger("DAO");
     public ArticleDAO(){}
     public ArticleDAO(Article article, Client client){
         this.setName(article.getName());
         this.setDescription(article.getDescription());
-        this.setProductionPrice(article.getProductionPrice());
 
         this.setUserPercent(client.getContract().getPercentage());
+        this.setProductionPrice(article.getProductionPrice());
+
+
+
     }
 
     public ArticleDAO(Article article){
@@ -50,8 +56,13 @@ public class ArticleDAO {
     public void setProductionPrice(Double productionPrice) {
         this.productionPrice = productionPrice;
         DecimalFormat df = new DecimalFormat("#.##");
-        Double afterVAT = productionPrice * (1 + 0.2);
-        //Double afterClientContract = afterVAT * (1 + (getUserPercent() / 100));
+
+
+        Double afterClientContract = productionPrice + (productionPrice / 100) * getUserPercent();
+        Double afterVAT = afterClientContract + (afterClientContract / 100) * 20;
+
+        logger.info(getName() + " TVA: "+afterVAT);
+        logger.info(getName() + " aCC: "+getUserPercent());
         this.setFinalPrice(df.format(afterVAT).toString());
     }
 

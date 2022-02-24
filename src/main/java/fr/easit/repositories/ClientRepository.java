@@ -11,6 +11,6 @@ import java.util.Optional;
 public interface ClientRepository extends JpaRepository<Client, Integer> {
 
     //public List<Client> findAll();
-    public Client getById(Integer integer);
+    //public Client getById(Integer integer);
 
 }

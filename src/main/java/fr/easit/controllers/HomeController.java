@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class HomeController {
     @Autowired
     ArticleService articleService;
-    ClientService clientService;
+
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model) {
@@ -20,8 +20,4 @@ public class HomeController {
 
         return "index";
     }
-
-
-
-
 }

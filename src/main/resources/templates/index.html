@@ -33,18 +33,15 @@
                     Desc
                 </td>
                 <td>
-                    Prix de production
+                    Prix d'achat
                 </td>
-<!--                <td>-->
-<!--                    Prix d'achat-->
-<!--                </td>-->
             </tr>
             </thead>
             <tbody>
             <tr th:each="article : ${articles}">
                 <td th:text="${article.name}"/>
                 <td th:text="${article.description}"/>
-                <td th:text="${article.finalPrice}"/>
+                <td th:text="${'€'+article.finalPrice}"/>
             </tr>
             </tbody>
         </table>
