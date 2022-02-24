@@ -1,5 +1,6 @@
 package fr.easit.easit;
 
+import fr.easit.Calculs;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

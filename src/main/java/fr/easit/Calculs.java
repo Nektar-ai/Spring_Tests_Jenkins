@@ -1,4 +1,4 @@
-package fr.easit.easit;
+package fr.easit;
 
 public class Calculs
 {

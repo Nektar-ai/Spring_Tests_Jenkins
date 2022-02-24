@@ -1,4 +1,4 @@
-package fr.easit.easit.models;
+package fr.easit.models;
 
 import javax.persistence.*;
 import java.util.List;
