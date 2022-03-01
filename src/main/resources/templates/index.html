@@ -17,6 +17,7 @@
             </div>
         </nav>
     </header>
+    <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
     <div class="pt-3" style="width: 650px; margin:auto">
         <div class="row">
             <h3>
@@ -41,7 +42,7 @@
             <tr th:each="article : ${articles}">
                 <td th:text="${article.name}"/>
                 <td th:text="${article.description}"/>
-                <td th:text="${'€'+article.finalPrice}"/>
+                <b><td th:text="${'€'+article.finalPrice}"/></b>
             </tr>
             </tbody>
         </table>

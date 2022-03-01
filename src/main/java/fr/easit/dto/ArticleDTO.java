@@ -1,20 +1,17 @@
-package fr.easit.dao;
+package fr.easit.dto;
 
 import fr.easit.models.Article;
 import fr.easit.models.Client;
-import fr.easit.models.Contract;
-import fr.easit.models.User;
 
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.logging.Logger;
 
-public class ArticleDAO {
+public class ArticleDTO {
 
 
     Logger logger = Logger.getLogger("DAO");
-    public ArticleDAO(){}
-    public ArticleDAO(Article article, Client client){
+    public ArticleDTO(){}
+    public ArticleDTO(Article article, Client client){
         this.setName(article.getName());
         this.setDescription(article.getDescription());
 
@@ -25,7 +22,7 @@ public class ArticleDAO {
 
     }
 
-    public ArticleDAO(Article article){
+    public ArticleDTO(Article article){
         this.setName(article.getName());
         this.setDescription(article.getDescription());
         this.setProductionPrice(article.getProductionPrice());

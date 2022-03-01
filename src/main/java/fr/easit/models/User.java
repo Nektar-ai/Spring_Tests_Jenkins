@@ -1,10 +1,15 @@
 package fr.easit.models;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Collection;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable, UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -16,13 +21,14 @@ public class User {
         this.id = id;
     }
 
-    @Column(length = 50)
-    private String login;
-    public String getLogin() {
-        return login;
+    @Column(length = 50, name= "login")
+    private String username;
+    @Override
+    public String getUsername() {
+        return username;
     }
-    public void setLogin(String login) {
-        this.login = login;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     private String password;
@@ -32,6 +38,32 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
 
     @OneToOne(mappedBy = "user")
     private Client client;
