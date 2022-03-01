@@ -23,17 +23,14 @@ public class UserServiceImpl implements UserService {
        return userRepository.findAll();
     }
 
-    @Override
-    public UserDetails findUserByUsername(String username)
-            throws UsernameNotFoundException {
-        User user = userRepository.findUserByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("L'utilisateur n'existe pas"));
-        return user;
-    }
-
-    @Override
     public void createUser(UserDetails user){
         userRepository.save((User) user);
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+            User user = userRepository.findUserByUsername(username)
+                    .orElseThrow(() -> new UsernameNotFoundException("L'utilisateur n'existe pas"));
+            return user;
+    }
 }
