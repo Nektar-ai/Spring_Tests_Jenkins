@@ -21,7 +21,7 @@
     <div class="pt-3" style="width: 650px; margin:auto">
         <div class="row">
             <h3>
-                Liste des pièces
+                Liste des articles
             </h3>
         </div>
         <table class="table">
@@ -42,7 +42,7 @@
             <tr th:each="article : ${articles}">
                 <td th:text="${article.name}"/>
                 <td th:text="${article.description}"/>
-                <b><td th:text="${'€'+article.finalPrice}"/></b>
+                <td th:text="${article.price} + '€'" style="text-align: right" />
             </tr>
             </tbody>
         </table>

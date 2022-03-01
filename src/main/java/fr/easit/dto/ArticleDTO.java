@@ -4,31 +4,16 @@ import fr.easit.models.Article;
 import fr.easit.models.Client;
 
 import java.text.DecimalFormat;
-import java.util.logging.Logger;
 
 public class ArticleDTO {
 
+    public ArticleDTO() { }
 
-    Logger logger = Logger.getLogger("DAO");
-    public ArticleDTO(){}
-    public ArticleDTO(Article article, Client client){
+    public ArticleDTO(Article article, Client client) {
         this.setName(article.getName());
         this.setDescription(article.getDescription());
-
-        this.setUserPercent(client.getContract().getPercentage());
-        this.setProductionPrice(article.getProductionPrice());
-
-
-
+        this.setPrice(article.getProductionPrice(), client.getContract().getPercentage());
     }
-
-    public ArticleDTO(Article article){
-        this.setName(article.getName());
-        this.setDescription(article.getDescription());
-        this.setProductionPrice(article.getProductionPrice());
-    }
-
-
 
     private String name;
     public String getName() {
@@ -46,36 +31,14 @@ public class ArticleDTO {
         this.description = description;
     }
 
-    private Double productionPrice;
-    public Double getProductionPrice() {
-        return productionPrice;
+    private Double price;
+    public Double getPrice() {
+        return price;
     }
-    public void setProductionPrice(Double productionPrice) {
-        this.productionPrice = productionPrice;
-        DecimalFormat df = new DecimalFormat("#.##");
 
-
-        Double afterClientContract = productionPrice + (productionPrice / 100) * getUserPercent();
+    public void setPrice(Double price, Integer percentage) {
+        Double afterClientContract = price + (price / 100) * percentage;
         Double afterVAT = afterClientContract + (afterClientContract / 100) * 20;
-
-        logger.info(getName() + " TVA: "+afterVAT);
-        logger.info(getName() + " aCC: "+getUserPercent());
-        this.setFinalPrice(df.format(afterVAT).toString());
-    }
-
-    private Integer userPercent;
-    public Integer getUserPercent() {
-        return userPercent;
-    }
-    public void setUserPercent(Integer userPercent) {
-        this.userPercent = userPercent;
-    }
-
-    private String finalPrice;
-    public String getFinalPrice() {
-        return finalPrice;
-    }
-    private void setFinalPrice(String finalPrice) {
-        this.finalPrice = finalPrice;
+        this.price = Math.round(afterVAT*100.0)/100.0;
     }
 }
