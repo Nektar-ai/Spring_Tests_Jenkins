@@ -8,11 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
@@ -23,59 +26,16 @@ public class HomeController {
     Logger logger = Logger.getLogger("HomeController");
     @Autowired
     ArticleService articleService;
+    @Autowired
+    UserService userService;
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(Model model) {
-        model.addAttribute("articles", articleService.getArticles());
+    public String index(Model model, Authentication auth) {
+        User user = userService.findUserByUsername(auth.getPrincipal().toString()).get();
+        model.addAttribute("articles", articleService.getArticles(user));
 
         return "index";
-    }
-
-
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-
-    //User : dbrewse0@gnu.org
-    @GetMapping("/login")
-    public String login(HttpServletRequest request, HttpSession session) {
-        session.setAttribute(
-                "error", getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION")
-        );
-        return "login";
-    }
-    private String getErrorMessage(HttpServletRequest request, String key) {
-        Exception exception = (Exception) request.getSession().getAttribute(key);
-        String error = "";
-        if (exception instanceof BadCredentialsException) {
-            error = "Invalid username and password!!";
-        } else if (exception instanceof LockedException) {
-            error = exception.getMessage();
-        } else {
-            error = "Invalid username and password!";
-        }
-        return error;
-    }
-
-    @GetMapping("/register")
-    public String register() {
-        return "register";
-    }
-    @PostMapping(
-            value = "/register",
-            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = {
-            MediaType.APPLICATION_ATOM_XML_VALUE, MediaType.APPLICATION_JSON_VALUE }
-    )
-    public void addUser(@RequestParam Map<String, String> body) {
-        User user = new User();
-        user.setUsername(body.get("username"));
-        user.setPassword(passwordEncoder.encode(body.get("password")));
-        logger.info("User : " + body.get("username")+ ", " + passwordEncoder.encode(body.get("password")));
-        user.setId(26);
-        userService.createUser(user);
     }
 
 }

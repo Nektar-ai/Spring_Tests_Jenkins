@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -21,6 +22,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAll() {
        return userRepository.findAll();
+    }
+
+    @Override
+    public Optional<User> findUserByUsername(String username) {
+        return userRepository.findUserByUsername(username);
     }
 
     public void createUser(UserDetails user){

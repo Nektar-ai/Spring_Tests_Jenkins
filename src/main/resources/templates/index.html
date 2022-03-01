@@ -13,11 +13,12 @@
                 Accueil
             </a>
             <div class="text-end">
-                <button type="button" class="btn btn-outline-light me-2">Se déconnecter</button>
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="btn btn-outline-light me-2">Se déconnecter</button>
+                </form>
             </div>
         </nav>
     </header>
-    <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
     <div class="pt-3" style="width: 650px; margin:auto">
         <div class="row">
             <h3>

@@ -7,7 +7,10 @@ import java.text.DecimalFormat;
 
 public class ArticleDTO {
 
-    public ArticleDTO() { }
+    public ArticleDTO(Article article) {
+        this.setName(article.getName());
+        this.setDescription(article.getDescription());
+    }
 
     public ArticleDTO(Article article, Client client) {
         this.setName(article.getName());
