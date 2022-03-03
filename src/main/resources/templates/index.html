@@ -29,6 +29,9 @@
             <thead class="table-dark table-bordered">
             <tr>
                 <td>
+                    ID
+                </td>
+                <td>
                     Nom
                 </td>
                 <td>
@@ -40,7 +43,8 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="article : ${articles}" class="row">
+            <tr th:each="article : ${articles}" class="articles-row">
+                <td th:text="${article.id}" class="id "/>
                 <td th:text="${article.name}" class="name"/>
                 <td th:text="${article.description}" class="desc"/>
                 <td th:text="${article.price} + '€'" style="text-align: right" class="price"/>
