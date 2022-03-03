@@ -40,10 +40,10 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="article : ${articles}">
-                <td th:text="${article.name}"/>
-                <td th:text="${article.description}"/>
-                <td th:text="${article.price} + '€'" style="text-align: right" />
+            <tr th:each="article : ${articles}" class="row">
+                <td th:text="${article.name}" class="name"/>
+                <td th:text="${article.description}" class="desc"/>
+                <td th:text="${article.price} + '€'" style="text-align: right" class="price"/>
             </tr>
             </tbody>
         </table>
