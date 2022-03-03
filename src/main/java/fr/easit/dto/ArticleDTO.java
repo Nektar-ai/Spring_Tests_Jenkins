@@ -8,14 +8,25 @@ import java.text.DecimalFormat;
 public class ArticleDTO {
 
     public ArticleDTO(Article article) {
+        this.setId(article.getId());
         this.setName(article.getName());
         this.setDescription(article.getDescription());
     }
 
     public ArticleDTO(Article article, Client client) {
+
+        this.setId(article.getId());
         this.setName(article.getName());
         this.setDescription(article.getDescription());
         this.setPrice(article.getProductionPrice(), client.getContract().getPercentage());
+    }
+
+    private Integer id;
+    public Integer getId() {
+        return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     private String name;
