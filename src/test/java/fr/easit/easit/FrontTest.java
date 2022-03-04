@@ -51,7 +51,7 @@ public class FrontTest {
     public void pageWithArticlesInJsonIsPresent() throws IOException
     {
         String jsonMimeType = "application/json";
-        HttpUriRequest request = new HttpGet("http://localhost:8080/api/articles?username="+user+"&password="+pas);
+        HttpUriRequest request = new HttpGet("/api/articles?username="+user+"&password="+pas);
         HttpResponse response = HttpClientBuilder.create().build().execute(request);
         String mimeType = ContentType.getOrDefault(response.getEntity()).getMimeType();
         if (response.getStatusLine().getStatusCode() == HttpStatus.UNAUTHORIZED.value())

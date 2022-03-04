@@ -1,10 +1,12 @@
 package fr.easit;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -15,9 +17,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class EasitApplication
 {
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		SpringApplication.run(EasitApplication.class, args);
 	}
+
 
 	/*@Bean
 	public TransactionManager transactionManager(EntityManagerFactory emf) {
