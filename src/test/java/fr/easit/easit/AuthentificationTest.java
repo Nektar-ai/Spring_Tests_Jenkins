@@ -22,7 +22,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest(classes = EasitApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = EasitApplication.class)
 public class AuthentificationTest {
 
     static String username = "dbrewse0@gnu.org";
