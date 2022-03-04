@@ -1,36 +1,59 @@
 package fr.easit.easit;
 
+import fr.easit.EasitApplication;
 import fr.easit.models.Article;
+import fr.easit.models.Client;
+import fr.easit.models.Contract;
 import fr.easit.models.User;
 import fr.easit.repositories.ArticleRepository;
+import fr.easit.repositories.ContractRepository;
 import fr.easit.repositories.UserRepository;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.junit.internal.runners.statements.Fail;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
-@DataJpaTest
+//@DataJpaTest
 //@SpringBootTest(classes = FrontTest.class)
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(
+        SpringBootTest.WebEnvironment.MOCK,
+        classes = EasitApplication.class)
+@AutoConfigureMockMvc
+@TestPropertySource(
+        locations = "classpath:application-integrationtest.properties")
 public class FrontTest {
 
     @Autowired
@@ -39,19 +62,49 @@ public class FrontTest {
     @Autowired
     UserRepository userRepo;
 
+    @Autowired
+    static ContractRepository contRepo;
+
     String user = "dbrewse0@gnu.org";
     String pas = "a";
+
+    public static List<Contract> getContracts()
+    {
+        return ContractRepository.findAll();
+    }
+
+    static Stream<Arguments> chargerListeUtilisateurs() throws Throwable
+    {
+        List<Contract> contratList = getContracts();
+        List<Client> clientList = new ArrayList<>();
+
+        for (Contract c : contratList)
+        {
+            clientList.add(c.getClients().get(0));
+        }
+
+        return Stream.of(
+                Arguments.of(clientList.get(0)),
+                Arguments.of(clientList.get(1)),
+                Arguments.of(clientList.get(2)),
+                Arguments.of(clientList.get(3)),
+                Arguments.of(clientList.get(4))
+        );
+    }
 
     @Test
     public void pageWithArticlesInJsonIsPresent() throws IOException
     {
-        String user = "";
-        String pass = "a";
         String jsonMimeType = "application/json";
-        HttpUriRequest request = new HttpGet("http://localhost:8080/api/articles");
+        HttpUriRequest request = new HttpGet("http://localhost:8080/api/articles?username="+user+"&password="+pas);
         HttpResponse response = HttpClientBuilder.create().build().execute(request);
         String mimeType = ContentType.getOrDefault(response.getEntity()).getMimeType();
-        assertEquals(jsonMimeType, mimeType);
+        if (response.getStatusLine().getStatusCode() == HttpStatus.UNAUTHORIZED.value())
+        {
+            fail("Echec d'authentification");
+        } else {
+            assertEquals(jsonMimeType, mimeType);
+        }
     }
 
     @Test
@@ -66,8 +119,9 @@ public class FrontTest {
         );
     }
 
-    @Test
-    public void verifyArticlesPriceWithClientMargin()
+    @ParameterizedTest()
+    @MethodSource("chargerListeUtilisateurs")
+    public void verifyArticlesPriceWithClientMargin(Client c)
     {
         // TODO
     }

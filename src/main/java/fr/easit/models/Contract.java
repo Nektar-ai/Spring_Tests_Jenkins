@@ -10,20 +10,8 @@ public class Contract {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Integer id;
-    public Integer getId() {
-        return id;
-    }
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     private Integer percentage;
-    public Integer getPercentage() {
-        return percentage;
-    }
-    public void setPercentage(Integer percentage) {
-        this.percentage = percentage;
-    }
 
     @OneToMany(mappedBy = "contract")
     private List<Client> clients;
@@ -35,9 +23,25 @@ public class Contract {
     public void setClients(List<Client> clients) {
         this.clients = clients;
     }
+
     public void addClient(Client client){
         List<Client> clients = getClients();
         clients.add(client);
         setClients(clients);
     }
+
+    public Integer getId() {
+        return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getPercentage() {
+        return percentage;
+    }
+    public void setPercentage(Integer percentage) {
+        this.percentage = percentage;
+    }
+
 }
