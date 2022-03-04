@@ -2,38 +2,22 @@ package fr.easit.easit;
 
 import fr.easit.EasitApplication;
 import fr.easit.dto.ArticleDTO;
-import fr.easit.models.Article;
-import fr.easit.models.Client;
-import fr.easit.models.Contract;
-import fr.easit.models.User;
-import fr.easit.repositories.ArticleRepository;
-import fr.easit.repositories.ContractRepository;
-import fr.easit.repositories.UserRepository;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.junit.internal.runners.statements.Fail;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
-import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,24 +32,10 @@ import static org.junit.Assert.fail;
 @SpringBootTest(classes = EasitApplication.class)
 public class FrontTest {
 
-    @Autowired
-    private ArticleRepository artRepo;
-
-    @Autowired
-    private UserRepository userRepo;
-
-    @Autowired
-    private ContractRepository contRepo;
-
     String user = "dbrewse0@gnu.org";
     String pas = "a";
 
-    public List<Contract> getContracts()
-    {
-        return contRepo.findAll();
-    }
-
-    static Stream<Arguments> chargerListeArticlesPrixMarge() throws Throwable
+    static Stream<Arguments> chargerListeArticlesPrixMarge()
     {
         return Stream.of(
                 Arguments.of(10, 5, 12.60),
@@ -114,7 +84,7 @@ public class FrontTest {
     }
 
     @Test
-    public void verifyArticleListIsPresent() throws IOException
+    public void verifyArticleListIsPresent()
     {
         File currentDirFile = new File("");
         String path = currentDirFile.getAbsolutePath();
@@ -150,19 +120,3 @@ public class FrontTest {
     }
 }
 
-/*
-    Map<String, String> list = new HashMap<String, String>();
-
-    User usr = userRepo.findUserByUsername(user).get();
-    Integer per = usr.getClient().getContract().getPercentage();
-
-        for (WebElement e : artList)
-                {
-                Article art = artRepo.getById(Integer.valueOf(e.findElement(By.className("id")).getText()));
-                Double artPrice = art.getProductionPrice();
-                Double artPriceCli = artPrice * (1+(per/100)) * (1+(tva/100));
-                System.out.println("WebPrice : " + e.findElement(By.className("price")).getText());
-                System.out.println("BDDPrice : " + artPriceCli);
-                list.put(e.findElement(By.className("id")).getText(), e.findElement(By.className("price")).getText());
-                }
-*/
