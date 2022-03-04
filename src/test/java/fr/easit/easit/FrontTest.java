@@ -48,9 +48,7 @@ import static org.junit.Assert.fail;
 //@SpringBootTest(classes = FrontTest.class)
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(
-        SpringBootTest.WebEnvironment.MOCK,
-        classes = EasitApplication.class)
+@SpringBootTest(webEnvironment =  SpringBootTest.WebEnvironment.MOCK, classes = EasitApplication.class)
 @AutoConfigureMockMvc
 @TestPropertySource(
         locations = "classpath:application.properties")
@@ -62,32 +60,41 @@ public class FrontTest {
     @Autowired
     UserRepository userRepo;
 
-    @Autowired
-    static
-    ContractRepository contRepo;
+//    @Autowired
+//    static
+//    ContractRepository contRepo;
 
     String user = "dbrewse0@gnu.org";
     String pas = "a";
 
-    static List<Contract> contracts = contRepo.findAll();
+//    static List<Contract> contracts = contRepo.findAll();
+//
+//    static Stream<Arguments> chargerListeUtilisateurs() throws Throwable
+//    {
+//        List<Contract> contratList = contracts;
+//        List<Client> clientList = new ArrayList<>();
+//
+//        for (Contract c : contratList)
+//        {
+//            clientList.add(c.getClients().get(0));
+//        }
+//
+//        return Stream.of(
+//                Arguments.of(clientList.get(0)),
+//                Arguments.of(clientList.get(1)),
+//                Arguments.of(clientList.get(2)),
+//                Arguments.of(clientList.get(3)),
+//                Arguments.of(clientList.get(4))
+//        );
+//    }
 
-    static Stream<Arguments> chargerListeUtilisateurs() throws Throwable
-    {
-        List<Contract> contratList = contracts;
-        List<Client> clientList = new ArrayList<>();
-
-        for (Contract c : contratList)
-        {
-            clientList.add(c.getClients().get(0));
+    @Test
+    public void TestAntoine() {
+        List<Article> articles = artRepo.findAll();
+        for (Article article:
+                articles) {
+            System.out.println(article.getName());
         }
-
-        return Stream.of(
-                Arguments.of(clientList.get(0)),
-                Arguments.of(clientList.get(1)),
-                Arguments.of(clientList.get(2)),
-                Arguments.of(clientList.get(3)),
-                Arguments.of(clientList.get(4))
-        );
     }
 
     @Test
