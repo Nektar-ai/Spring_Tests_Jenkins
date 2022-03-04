@@ -1,6 +1,7 @@
 package fr.easit.easit;
 
 import fr.easit.EasitApplication;
+import fr.easit.dto.ArticleDTO;
 import fr.easit.models.Article;
 import fr.easit.models.Client;
 import fr.easit.models.Contract;
@@ -14,10 +15,12 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.internal.runners.statements.Fail;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -27,16 +30,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -44,51 +45,34 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-//@DataJpaTest
-//@SpringBootTest(classes = FrontTest.class)
-
-@RunWith(SpringRunner.class)
-@SpringBootTest(
-        SpringBootTest.WebEnvironment.MOCK,
-        classes = EasitApplication.class)
-@AutoConfigureMockMvc
-@TestPropertySource(
-        locations = "classpath:application-integrationtest.properties")
+@SpringBootTest(classes = EasitApplication.class)
 public class FrontTest {
 
     @Autowired
-    ArticleRepository artRepo;
+    private ArticleRepository artRepo;
 
     @Autowired
-    UserRepository userRepo;
+    private UserRepository userRepo;
 
     @Autowired
-    static ContractRepository contRepo;
+    private ContractRepository contRepo;
 
     String user = "dbrewse0@gnu.org";
     String pas = "a";
 
-    public static List<Contract> getContracts()
+    public List<Contract> getContracts()
     {
-        return ContractRepository.findAll();
+        return contRepo.findAll();
     }
 
-    static Stream<Arguments> chargerListeUtilisateurs() throws Throwable
+    static Stream<Arguments> chargerListeArticlesPrixMarge() throws Throwable
     {
-        List<Contract> contratList = getContracts();
-        List<Client> clientList = new ArrayList<>();
-
-        for (Contract c : contratList)
-        {
-            clientList.add(c.getClients().get(0));
-        }
-
         return Stream.of(
-                Arguments.of(clientList.get(0)),
-                Arguments.of(clientList.get(1)),
-                Arguments.of(clientList.get(2)),
-                Arguments.of(clientList.get(3)),
-                Arguments.of(clientList.get(4))
+                Arguments.of(10, 5, 12.60),
+                Arguments.of(10, 10, 13.20),
+                Arguments.of(10, 15, 13.80),
+                Arguments.of(10, 20, 14.40),
+                Arguments.of(10, 25, 15)
         );
     }
 
@@ -119,23 +103,21 @@ public class FrontTest {
         );
     }
 
-    @ParameterizedTest()
-    @MethodSource("chargerListeUtilisateurs")
-    public void verifyArticlesPriceWithClientMargin(Client c)
+    @ParameterizedTest(name = "Test Calcul prix {index} : Prix article HT = {0}, marge = {1}%, resultat attendu = {2}")
+    @MethodSource("chargerListeArticlesPrixMarge")
+    public void verifyArticlesPriceWithClientMargin(double prix, int marge, double res)
     {
-        // TODO
+        ArticleDTO art = new ArticleDTO();
+        art.setPrice(prix, marge);
+
+        Assertions.assertEquals(art.getPrice(), res);
     }
 
     @Test
     public void verifyArticleListIsPresent() throws IOException
     {
-
-        Integer tva = 20;
-
         File currentDirFile = new File("");
         String path = currentDirFile.getAbsolutePath();
-//        System.out.println("Path : " + path);
-//        String currentDir = path.substring(0, path.length() - currentDirFile.getCanonicalPath().length());
 
         System.setProperty("webdriver.chrome.driver",path + "\\chromedriver.exe");
         WebDriver driver = new ChromeDriver();
@@ -149,33 +131,38 @@ public class FrontTest {
         WebElement pass = driver.findElement(By.name("password"));
         pass.sendKeys(pas);
 
-//        WebElement button = driver.findElement(By.name("password"));
         WebElement button = driver.findElement(By.id("login"));
         button.click();
 
         List<WebElement> artList = driver.findElements(By.className("articles-row"));
         System.out.println("List size : " + artList.size());
-        Map<String, String> list = new HashMap<String, String>();
 
-        User usr = userRepo.findUserByUsername(user).get();
-        Integer per = usr.getClient().getContract().getPercentage();
-
-        for (WebElement e : artList)
-        {
-            Article art = artRepo.getById(Integer.valueOf(e.findElement(By.className("id")).getText()));
-            Double artPrice = art.getProductionPrice();
-            Double artPriceCli = artPrice * (1+(per/100)) * (1+(tva/100));
-            System.out.println("WebPrice : " + e.findElement(By.className("price")).getText());
-            System.out.println("BDDPrice : " + artPriceCli);
-//            if (artPriceCli != )
-            list.put(e.findElement(By.className("id")).getText(), e.findElement(By.className("price")).getText());
-        }
+        if (artList.size() == 0)
+            fail("Liste d'articles non présente");
 
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
+        } finally {
+            driver.quit();
         }
-        driver.quit();
     }
 }
+
+/*
+    Map<String, String> list = new HashMap<String, String>();
+
+    User usr = userRepo.findUserByUsername(user).get();
+    Integer per = usr.getClient().getContract().getPercentage();
+
+        for (WebElement e : artList)
+                {
+                Article art = artRepo.getById(Integer.valueOf(e.findElement(By.className("id")).getText()));
+                Double artPrice = art.getProductionPrice();
+                Double artPriceCli = artPrice * (1+(per/100)) * (1+(tva/100));
+                System.out.println("WebPrice : " + e.findElement(By.className("price")).getText());
+                System.out.println("BDDPrice : " + artPriceCli);
+                list.put(e.findElement(By.className("id")).getText(), e.findElement(By.className("price")).getText());
+                }
+*/

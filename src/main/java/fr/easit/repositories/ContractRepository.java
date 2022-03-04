@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface ContractRepository extends JpaRepository<Contract, Integer> {
-    public static List<Contract> findAll();
+
+    public List<Contract> findAll();
 }

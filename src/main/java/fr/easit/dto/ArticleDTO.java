@@ -7,6 +7,8 @@ import java.text.DecimalFormat;
 
 public class ArticleDTO {
 
+    public ArticleDTO() {}
+
     public ArticleDTO(Article article) {
         this.setId(article.getId());
         this.setName(article.getName());
@@ -45,14 +47,14 @@ public class ArticleDTO {
         this.description = description;
     }
 
-    private Double price;
-    public Double getPrice() {
+    private double price;
+    public double getPrice() {
         return price;
     }
 
     public void setPrice(Double price, Integer percentage) {
-        Double afterClientContract = price + (price / 100) * percentage;
-        Double afterVAT = afterClientContract + (afterClientContract / 100) * 20;
+        double afterClientContract = price + (price / 100) * percentage;
+        double afterVAT = afterClientContract + (afterClientContract / 100) * 20;
         this.price = Math.round(afterVAT*100.0)/100.0;
     }
 }
