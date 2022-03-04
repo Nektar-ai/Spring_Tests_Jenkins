@@ -39,7 +39,7 @@ public class ApiController {
     public ResponseEntity<?> getArticlesJson(@RequestParam(required = false) String username, @RequestParam(required = false) String password) {
         boolean authed = false;
         User user = null;
-        if(username == null || password== null){
+        if(username == null || password == null || username == "" || password == ""){
            authed = false;
            log.warning("null auth");
             ApiError error = new ApiError(HttpStatus.UNAUTHORIZED, "Field username or password not filled");
@@ -65,7 +65,4 @@ public class ApiController {
         }
 
     }
-
-
-
 }
