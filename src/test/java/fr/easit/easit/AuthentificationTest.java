@@ -1,5 +1,6 @@
 package fr.easit.easit;
 
+import fr.easit.EasitApplication;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import java.io.IOException;
 import java.util.stream.Stream;
@@ -20,6 +22,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@SpringBootTest(classes = EasitApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AuthentificationTest {
 
     static String username = "dbrewse0@gnu.org";
@@ -66,7 +69,7 @@ public class AuthentificationTest {
     @Test
     public void anonymousTriesToAccessUnauthorizedResource() throws IOException
     {
-        HttpUriRequest request = new HttpGet("http://127.0.0.1:8080/api/articles");
+        HttpUriRequest request = new HttpGet("http://127.0.0.1:8084/api/articles");
         HttpResponse response = HttpClientBuilder.create().build().execute(request);
 
         String json = EntityUtils.toString(response.getEntity());

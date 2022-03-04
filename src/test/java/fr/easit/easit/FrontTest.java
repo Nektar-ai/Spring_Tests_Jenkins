@@ -30,7 +30,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 
-@SpringBootTest(classes = EasitApplication.class)
+@SpringBootTest(classes = EasitApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class FrontTest {
 
     String user = "dbrewse0@gnu.org";
