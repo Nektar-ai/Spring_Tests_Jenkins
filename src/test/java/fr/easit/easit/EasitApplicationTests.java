@@ -1,6 +1,7 @@
 package fr.easit.easit;
 
 import java.io.IOException;
+import java.sql.*;
 import java.util.List;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -27,6 +28,8 @@ import org.springframework.context.annotation.Bean;
 import fr.easit.controllers.ApiController;
 import fr.easit.controllers.HomeController;
 import fr.easit.dto.ArticleDTO;
+import fr.easit.models.Article;
+import fr.easit.models.Client;
 import fr.easit.models.User;
 import fr.easit.repositories.ArticleRepository;
 import fr.easit.repositories.UserRepository;
@@ -37,31 +40,26 @@ import junit.framework.Assert;
 @SpringBootTest
 class EasitApplicationTests {
 
-/*	@Test
-	void contextLoads() {
-	}*/
-	
-//	@TestConfiguration
-//	static class ArticleServiceTestConfiguration {
-//		@Bean
-//		public ArticleService articleService() {
-//			return new ArticleServicImpl();
-//		}
-//	}
-//	
-//	@Autowired
-//	ArticleService articlesService;
-//	
-//	@MockBean
-//	ArticleRepository articlesRepo;
+	@Autowired
+    ArticleRepository artRepo;
+
+    @Autowired
+    UserRepository userRepo;
+
+    String user = "dbrewse0@gnu.org";
+    String pas = "a";
 
 	@Test
 	public void testCompareJSONFromApiAndDatabase() throws JSONException {
 		
-		//JSON de l'API
+		User userTest = userRepo.findUserByUsername(user).get();
+		Client clientTest = userTest.getClient();
+		
+		// JSON de l'API
 		HttpUriRequest request = new HttpGet("http://localhost:8080/api/articles?username=dbrewse0@gnu.org&password=a");
 		CloseableHttpResponse response;
 		String jsonApi = "";
+		String jsonBdd = "[";
 		try {
 			response = HttpClientBuilder.create().build().execute(request);
 			jsonApi = EntityUtils.toString(response.getEntity());
@@ -73,15 +71,27 @@ class EasitApplicationTests {
 			e.printStackTrace();
 		}
 		
+		// Récup data de la BDD
+		List<Article> articles = artRepo.findAll();
 		
-		//HomeController repoJson = new HomeController();
+		// Formatage du retour BDD en JSON
+        for (Article article: articles) {
+        	ArticleDTO article2 = new ArticleDTO(article, clientTest);
+        	
+            jsonBdd = jsonBdd + "{\"id\":" + article.getId()
+            			+ ",\"name\":\"" + article.getName() + "\""
+            			+ ",\"description\":\"" + article.getDescription() + "\""
+            			+ ",\"price\":" + article2.getPrice() + "},";
+        }
+        
+        jsonBdd = jsonBdd + "]";
+        
+        StringBuilder jsonBddFormat = new StringBuilder(jsonBdd);
+        jsonBddFormat.deleteCharAt(jsonBdd.length()-2);
+        jsonBdd = jsonBddFormat.toString();
+        
+		JSONAssert.assertEquals(jsonApi, jsonBdd, false);
 		
-		
-		//System.out.println(articlesService.getArticles());		
-		//System.out.println(apiJson.getArticlesJson("dbrewse0@gnu.org", "a"));
-		//JSONArray jsonArray = listArticlesApi.toJSONArray();
-
-		//JSONAssert.assertEquals(jsonArray, jsonArray, false);
-		JSONAssert.assertEquals(jsonApi, jsonApi, false);
+		// BOOM MY NIGGA
 	}
 }
