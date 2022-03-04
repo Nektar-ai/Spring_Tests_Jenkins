@@ -56,7 +56,7 @@ class EasitApplicationTests {
 		Client clientTest = userTest.getClient();
 		
 		// JSON de l'API
-		HttpUriRequest request = new HttpGet("http://localhost:8080/api/articles?username=dbrewse0@gnu.org&password=a");
+		HttpUriRequest request = new HttpGet("http://localhost:8080/api/articles?username="+user+"&password="+pas);
 		CloseableHttpResponse response;
 		String jsonApi = "";
 		String jsonBdd = "[";
@@ -77,7 +77,6 @@ class EasitApplicationTests {
 		// Formatage du retour BDD en JSON
         for (Article article: articles) {
         	ArticleDTO article2 = new ArticleDTO(article, clientTest);
-        	
             jsonBdd = jsonBdd + "{\"id\":" + article.getId()
             			+ ",\"name\":\"" + article.getName() + "\""
             			+ ",\"description\":\"" + article.getDescription() + "\""
@@ -91,7 +90,5 @@ class EasitApplicationTests {
         jsonBdd = jsonBddFormat.toString();
         
 		JSONAssert.assertEquals(jsonApi, jsonBdd, false);
-		
-		// BOOM MY NIGGA
 	}
 }
