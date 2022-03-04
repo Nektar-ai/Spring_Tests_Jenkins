@@ -1,7 +1,6 @@
 package fr.easit.easit;
 
 import org.apache.http.HttpResponse;
-
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -13,9 +12,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.http.HttpStatus;
-
 import java.io.IOException;
-import java.net.URI;
 import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -28,17 +25,18 @@ public class AuthentificationTest {
     static String username = "dbrewse0@gnu.org";
     static String pass = "a";
 
-    static Stream<Arguments> chargerListeMessageErreurAuthent() throws Throwable
+    static Stream<Arguments> chargerListeMessageErreurAuthent()
     {
         return Stream.of(
                 Arguments.of("", "", 401, "Field username or password not filled"),
                 Arguments.of(username, "b", 401, "Bad password"),
-                Arguments.of("dbrewse0@gnu.or", pass, 401, "User not found")
+                Arguments.of("dbrewse0@gnu.or", pass, 401, "User not found"),
+                Arguments.of(null, null, 401, "User not found")
         );
     }
 
     @Test
-    public void givenUserDoesExist_whenUserLogin_thenCode200IsReceive() throws IOException, JSONException
+    public void givenUserDoesExist_whenUserLogin_thenCode200IsReceive() throws IOException
     {
         HttpUriRequest request = new HttpGet("http://localhost:8080/api/articles?username="+username+"&password="+pass);
         HttpResponse response = HttpClientBuilder.create().build().execute(request);
