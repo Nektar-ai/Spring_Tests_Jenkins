@@ -21,7 +21,7 @@ import fr.easit.repositories.ArticleRepository;
 import fr.easit.repositories.UserRepository;
 
 @SpringBootTest
-class EasitApplicationTests {
+class ApiTest {
 
 	@Autowired
     ArticleRepository artRepo;
@@ -39,7 +39,7 @@ class EasitApplicationTests {
 		Client clientTest = userTest.getClient();
 		
 		// JSON de l'API
-		HttpUriRequest request = new HttpGet("http://localhost:8080/api/articles?username=dbrewse0@gnu.org&password=a");
+		HttpUriRequest request = new HttpGet("http://localhost:8080/api/articles?username="+user+"&password="+pas);
 		CloseableHttpResponse response;
 		String jsonApi = "";
 		String jsonBdd = "[";
@@ -47,10 +47,8 @@ class EasitApplicationTests {
 			response = HttpClientBuilder.create().build().execute(request);
 			jsonApi = EntityUtils.toString(response.getEntity());
 		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -74,15 +72,5 @@ class EasitApplicationTests {
         jsonBdd = jsonBddFormat.toString();
         
 		JSONAssert.assertEquals(jsonApi, jsonBdd, false);
-
-		// Ajout by Donovan 4 Mars 2022 21:45
-		// BOOM MY NIGGA // PSSSHIT LE JUIF CROUSTILLANT
-
-		// Ajout by Le Turk 4 Mars 2022 22:06
-		// LES BOUGNOOULES EN BOUGNOULIE
-
-		// Ajout by Antoine 4 Mars 2022 22:11
-		// LA BITE MON GARS (LBMG)
-
 	}
 }
