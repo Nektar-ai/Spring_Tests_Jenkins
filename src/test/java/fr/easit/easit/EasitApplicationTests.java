@@ -81,7 +81,8 @@ class EasitApplicationTests {
 		// Ajout by Le Turk 4 Mars 2022 22:06
 		// LES BOUGNOOULES EN BOUGNOULIE
 
-
+		// Ajout by Antoine 4 Mars 2022 22:11
+		// LA BITE MON GARS (LBMG)
 
 	}
 }

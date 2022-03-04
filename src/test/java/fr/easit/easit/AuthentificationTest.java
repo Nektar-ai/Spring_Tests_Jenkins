@@ -66,7 +66,7 @@ public class AuthentificationTest {
     @Test
     public void anonymousTriesToAccessUnauthorizedResource() throws IOException
     {
-        HttpUriRequest request = new HttpGet("http://localhost:8080/api/articles");
+        HttpUriRequest request = new HttpGet("http://127.0.0.1:8080/api/articles");
         HttpResponse response = HttpClientBuilder.create().build().execute(request);
 
         String json = EntityUtils.toString(response.getEntity());
