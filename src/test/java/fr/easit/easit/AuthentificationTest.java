@@ -12,7 +12,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext;
 import org.springframework.http.HttpStatus;
 import java.io.IOException;
 import java.util.stream.Stream;
@@ -69,7 +72,8 @@ public class AuthentificationTest {
     @Test
     public void anonymousTriesToAccessUnauthorizedResource() throws IOException
     {
-        HttpUriRequest request = new HttpGet("http://127.0.0.1:8084/api/articles");
+
+        HttpUriRequest request = new HttpGet("http://127.0.0.1:8080/api/articles");
         HttpResponse response = HttpClientBuilder.create().build().execute(request);
 
         String json = EntityUtils.toString(response.getEntity());
