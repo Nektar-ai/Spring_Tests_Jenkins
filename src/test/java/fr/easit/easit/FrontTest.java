@@ -53,7 +53,7 @@ import static org.junit.Assert.fail;
         classes = EasitApplication.class)
 @AutoConfigureMockMvc
 @TestPropertySource(
-        locations = "classpath:application-integrationtest.properties")
+        locations = "classpath:application.properties")
 public class FrontTest {
 
     @Autowired
@@ -63,19 +63,17 @@ public class FrontTest {
     UserRepository userRepo;
 
     @Autowired
-    static ContractRepository contRepo;
+    static
+    ContractRepository contRepo;
 
     String user = "dbrewse0@gnu.org";
     String pas = "a";
 
-    public static List<Contract> getContracts()
-    {
-        return ContractRepository.findAll();
-    }
+    static List<Contract> contracts = contRepo.findAll();
 
     static Stream<Arguments> chargerListeUtilisateurs() throws Throwable
     {
-        List<Contract> contratList = getContracts();
+        List<Contract> contratList = contracts;
         List<Client> clientList = new ArrayList<>();
 
         for (Contract c : contratList)
